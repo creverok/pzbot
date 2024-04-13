@@ -33,9 +33,9 @@ def add_book(name):
         cursor.execute('INSERT INTO books (name, available) VALUES (?, ?)', (name, 1))
         conn.commit()
         conn.close()
-        print(f"Ви додали книгу {name}")
+        return f"Ви додали книгу {name}"
     else:
-        print(f"Книга {name} вже існує в базі даних")
+        return f"Книга {name} вже існує в нашій бібліотеці"
 
 # Функція для видалення книги
 def remove_book(name):
@@ -45,9 +45,9 @@ def remove_book(name):
         cursor.execute('DELETE FROM books WHERE name = ?', (name,))
         conn.commit()
         conn.close()
-        print(f"Ви прибрали книгу {name}")
+        return f"Ви прибрали книгу {name} з нашої бібліотеки"
     else:
-        print(f"Книги {name} відсутня в базі даних")
+        return f"Книги {name} немає в нашій бібліотеці"
 
 def show_all_books():
     conn = sqlite3.connect('books.db')
@@ -59,22 +59,22 @@ def show_all_books():
     # Отримання результатів запиту
     books = cursor.fetchall()
 
+    books.sort()
     # Виведення всіх книг
+    s=''
     if books:
-        print("Наявні книги:")
         for book in books:
-            print(book[0])
+            s+=book[0]+"\n"
+        return s
     else:
-        print("У базі даних немає жодної книги")
+        return "У нашій бібліотеці немає жодної книги"
 
     # Закриття підключення
     conn.close()
 
-
-# Основна функція для взаємодії з користувачем
 def main():
     create_table()
-    request = input("Введіть 'add', 'remove', 'search' або 'stop': ").strip().lower()
+    request = input("Введіть 'add', 'remove', 'search', 'show' або 'stop': ").strip().lower()
     while request != 'stop':
         if request == 'add':
             book_name = input("Введіть назву книги для додавання: ").strip()
@@ -88,7 +88,7 @@ def main():
                 print("Така книга вже є!")
             else:
                 print("Такої книги в нас немає")
-        elif request== 'show':
+        elif request=='show':
             show_all_books()
         else:
             print("Невідома команда. Будь ласка, спробуйте ще раз.")
