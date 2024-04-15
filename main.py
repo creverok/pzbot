@@ -8,9 +8,6 @@ import crv
 from keep_alive import keep_alive
 keep_alive()
 
-
-my_secret = 'MTIyODMyMTc2MTEwMDE3MzM0Mg.GqGdg2.lIGI3dINGmQg7tWMvigP60IRX1b6VsLTRi_sXk'
-
 intents = discord.Intents.all()
 client = commands.Bot(command_prefix='/', intents=intents)
 
@@ -82,4 +79,4 @@ async def показати_всі_книги(Interaction: discord.Interaction):
     await Interaction.response.send_message(embed=embed)
 
 # токен
-client.run(my_secret)
+client.run(TOKEN)
