@@ -16,6 +16,12 @@ client = commands.Bot(command_prefix='/', intents=intents)
 
 # Запуск бота
 
+def gitpush():
+    repo = git.Repo(os.getcwd())
+    repo.index.add("*")
+    repo.index.commit("Update db")
+    origin = repo.remotes.origin
+    origin.push()
 
 @client.event
 async def on_ready():
@@ -49,10 +55,7 @@ async def додати_книгу(Interaction: discord.Interaction, книга: 
     книга1=f"{книга.name} {том.value}"
     print(книга1)
     s=crv.add_book(книга1)
-    repo = git.Repo(os.getcwd())
-    repo.index.add("*")
-    repo.index.commit("Update db")
-    repo.remotes.origin.push()
+    gitpush()
     embed = discord.Embed(title="Бібліотека PZ",
                           description="",
                           colour=discord.Colour.dark_blue())
@@ -64,6 +67,7 @@ async def додати_книгу(Interaction: discord.Interaction, книга: 
 @client.tree.command(name='видалити_книгу', description='Видаляє книгу з нашої бібліотеки')
 async def видалити_книгу(Interaction: discord.Interaction, книга: str):
     s=crv.remove_book(книга)
+    gitpush()
     embed = discord.Embed(title="Бібліотека PZ",
                           description="",
                           colour=discord.Colour.dark_blue())
