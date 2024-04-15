@@ -46,7 +46,7 @@ async def on_ready():
     app_commands.Choice(name="5", value="Том 5")
 ])
 async def додати_книгу(Interaction: discord.Interaction, книга: app_commands.Choice[str], том:app_commands.Choice[str]):
-    книга1=f"{книга.name} {том}"
+    книга1=f"{книга.name} {том.value}"
     print(книга1)
     s=crv.add_book(книга1)
     repo = git.Repo(os.getcwd())
